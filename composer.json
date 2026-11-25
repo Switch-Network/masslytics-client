@@ -17,8 +17,10 @@
     ],
     "require": {
         "php": "^8.4",
-        "spatie/laravel-package-tools": "^1.16",
-        "illuminate/contracts": "^11.0||^12.0||^13.0"
+        "illuminate/contracts": "^11.0||^12.0||^13.0",
+        "illuminate/http": "^11.0||^12.0||^13.0",
+        "illuminate/support": "^11.0||^12.0||^13.0",
+        "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
         "laravel/pint": "^1.14",
@@ -34,8 +36,7 @@
     },
     "autoload": {
         "psr-4": {
-            "SwitchNetwork\\Masslytics\\": "src/",
-            "SwitchNetwork\\Masslytics\\Database\\Factories\\": "database/factories/"
+            "SwitchNetwork\\Masslytics\\": "src/"
         }
     },
     "autoload-dev": {
