@@ -18,7 +18,7 @@ class Campaign
         );
     }
 
-    public function show(string $uuid): ?array
+    public function get(string $uuid): ?array
     {
         return $this->client->request(
             'GET',
@@ -54,21 +54,21 @@ class Campaign
 
     public function results(
         string $uuid,
-        string $used_budget,
+        string $usedBudget,
         string $currency,
-        string $realized_reach,
+        string $realizedReach,
         ?string $averageOrderValue,
-        string $attribution_method,
+        string $attributionMethod,
     ): ?array {
         return $this->client->request(
             'GET',
             "/api/campaigns/{$uuid}/results",
             [
-                'used_budget' => $used_budget,
+                'used_budget' => $usedBudget,
                 'currency' => $currency,
-                'realized_reach' => $realized_reach,
+                'realized_reach' => $realizedReach,
                 'averageOrderValue' => $averageOrderValue,
-                'attribution_method' => $attribution_method,
+                'attribution_method' => $attributionMethod,
             ]
         );
     }

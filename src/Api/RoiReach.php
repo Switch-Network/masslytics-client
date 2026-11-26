@@ -10,7 +10,7 @@ class RoiReach
         private Client $client
     ) {}
 
-    public function reachToConversions(string $identifier, string $startDate, string $endDate, string $attributionMethod): ?array
+    public function reachToConversions(string $identifier, string $startDate, string $endDate, ?string $attributionMethod = null): ?array
     {
         return $this->client->request(
             'GET',
@@ -19,7 +19,7 @@ class RoiReach
         );
     }
 
-    public function onTraffic(string $identifier, string $startDate, string $endDate, string $attributionMethod): ?array
+    public function returnOnTraffic(string $identifier, string $startDate, string $endDate, ?string $attributionMethod = null): ?array
     {
         return $this->client->request(
             'GET',
@@ -28,7 +28,7 @@ class RoiReach
         );
     }
 
-    public function returnOnConversions(string $identifier, string $startDate, string $endDate, string $attributionMethod): ?array
+    public function returnOnConversions(string $identifier, string $startDate, string $endDate, ?string $attributionMethod = null): ?array
     {
         return $this->client->request(
             'GET',
@@ -37,7 +37,7 @@ class RoiReach
         );
     }
 
-    public function mediaPressure(string $identifier, string $startDate, string $endDate, string $attributionMethod): ?array
+    public function mediaPressure(string $identifier, string $startDate, string $endDate, ?string $attributionMethod = null): ?array
     {
         return $this->client->request(
             'GET',

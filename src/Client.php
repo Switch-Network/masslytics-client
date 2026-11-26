@@ -2,6 +2,10 @@
 
 namespace SwitchNetwork\Masslytics;
 
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\RequestException;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use SwitchNetwork\Masslytics\Api\Brand;
 use SwitchNetwork\Masslytics\Api\Broadcast;
 use SwitchNetwork\Masslytics\Api\Campaign;
@@ -12,10 +16,6 @@ use SwitchNetwork\Masslytics\Api\IndirectImpact;
 use SwitchNetwork\Masslytics\Api\Result;
 use SwitchNetwork\Masslytics\Api\RoiReach;
 use SwitchNetwork\Masslytics\Api\TopPages;
-use Illuminate\Http\Client\ConnectionException;
-use Illuminate\Http\Client\RequestException;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class Client
 {
@@ -27,20 +27,21 @@ class Client
 
     public function __construct()
     {
-        $this->token = config('masslytics.admin_token');
-        $this->url = config('masslytics.url');
+        $this->token = config('masslytics.token');
+        $this->url = rtrim(config('masslytics.url'), '/');
     }
 
     public function timeout(int $seconds): static
     {
-        $this->timeout = $seconds;
+        $client = clone $this;
+        $client->timeout = $seconds;
 
-        return $this;
+        return $client;
     }
 
     public function installCheck(string $identifier): ?string
     {
-        $json = $this->request('get', '/api/installCheck/' . $identifier, [
+        $json = $this->request('GET', '/api/installCheck/'.$identifier, [
             'format' => 'json',
         ]);
 
@@ -53,12 +54,12 @@ class Client
 
     public function user(): ?array
     {
-        return $this->request('get', '/api/user');
+        return $this->request('GET', '/api/user');
     }
 
     public function healthcheck(): ?array
     {
-        return $this->request('get', '/api/masslytics/healthcheck');
+        return $this->request('GET', '/api/masslytics/healthcheck');
     }
 
     public function request(string $method, string $path, array $data = []): ?array
@@ -70,7 +71,7 @@ class Client
                 $request->connectTimeout($this->timeout)->timeout($this->timeout);
             }
 
-            $response = $request->{$method}($this->url . $path, $data);
+            $response = $request->{$method}($this->url.$path, $data);
 
             $response->throw();
 
@@ -87,7 +88,7 @@ class Client
             Log::error('Masslytics request failed (request)', [
                 'method' => $method,
                 'path' => $path,
-                'status' => $e->response?->status(),
+                'status' => $e->response->status(),
                 'error' => $e->getMessage(),
             ]);
 

@@ -37,32 +37,32 @@ class Broadcast
         );
     }
 
-    public function get(string $broadcast): ?array
+    public function get(string $broadcastId): ?array
     {
         return $this->client->request(
             'GET',
-            "/api/broadcasts/{$broadcast}"
+            "/api/broadcasts/{$broadcastId}"
         );
     }
 
-    public function update(string $broadcast, array $data): ?array
+    public function update(string $broadcastId, array $data): ?array
     {
         return $this->client->request(
             'PUT',
-            "/api/broadcasts/{$broadcast}",
+            "/api/broadcasts/{$broadcastId}",
             $data
         );
     }
 
-    public function delete(string $broadcast): ?array
+    public function delete(string $broadcastId): ?array
     {
         return $this->client->request(
             'DELETE',
-            "/api/broadcasts/{$broadcast}"
+            "/api/broadcasts/{$broadcastId}"
         );
     }
 
-    public function bulkDestroy(array $broadcastIds): ?array
+    public function bulkDelete(array $broadcastIds): ?array
     {
         return $this->client->request(
             'POST',
@@ -71,7 +71,7 @@ class Broadcast
         );
     }
 
-    public function bulkStore(array $broadcasts): ?array
+    public function bulkCreate(array $broadcasts): ?array
     {
         return $this->client->request(
             'POST',

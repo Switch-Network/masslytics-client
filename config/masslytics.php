@@ -9,7 +9,7 @@ return [
     | The API token that is sent as a bearer token with every request.
     |
      */
-    'admin_token' => env('MASSLYTICS_ADMIN_TOKEN', ''),
+    'token' => env('MASSLYTICS_TOKEN', ''),
 
     /*
     |--------------------------------------------------------------------------

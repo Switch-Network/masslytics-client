@@ -52,14 +52,14 @@ class Brand
         );
     }
 
-    public function recalculateResults(string $identifier, string $start, string $end): ?array
+    public function recalculateResults(string $identifier, string $startDate, string $endDate): ?array
     {
         return $this->client->request(
             'POST',
             "/api/brands/{$identifier}/recalculateResults",
             [
-                'start' => $start,
-                'end' => $end,
+                'start' => $startDate,
+                'end' => $endDate,
             ],
         );
     }

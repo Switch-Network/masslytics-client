@@ -10,7 +10,7 @@ class IndirectImpact
         private Client $client,
     ) {}
 
-    public function indirectImpact(
+    public function get(
         string $identifier,
         ?string $compareDate = null,
         ?int $brandId = null,
@@ -18,7 +18,7 @@ class IndirectImpact
     ): ?array {
         return $this->client->request(
             'GET',
-            "/api/indirectImpact/{$identifier}/",
+            "/api/indirectImpact/{$identifier}",
             [
                 'compare' => $compareDate ?? '',
                 'brand' => $brandId,
