@@ -5,7 +5,6 @@ namespace SwitchNetwork\Masslytics;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use SwitchNetwork\Masslytics\Api\Brand;
 use SwitchNetwork\Masslytics\Api\Broadcast;
 use SwitchNetwork\Masslytics\Api\Campaign;
@@ -62,38 +61,23 @@ class Client
         return $this->request('GET', '/api/masslytics/healthcheck');
     }
 
+    /**
+     * @throws ConnectionException
+     * @throws RequestException
+     */
     public function request(string $method, string $path, array $data = []): ?array
     {
-        try {
-            $request = Http::withToken($this->token);
+        $request = Http::withToken($this->token);
 
-            if ($this->timeout) {
-                $request->connectTimeout($this->timeout)->timeout($this->timeout);
-            }
-
-            $response = $request->{$method}($this->url.$path, $data);
-
-            $response->throw();
-
-            return $response->json();
-        } catch (ConnectionException $e) {
-            Log::error('Masslytics request failed (connection)', [
-                'method' => $method,
-                'path' => $path,
-                'error' => $e->getMessage(),
-            ]);
-
-            return null;
-        } catch (RequestException $e) {
-            Log::error('Masslytics request failed (request)', [
-                'method' => $method,
-                'path' => $path,
-                'status' => $e->response->status(),
-                'error' => $e->getMessage(),
-            ]);
-
-            return null;
+        if ($this->timeout) {
+            $request->connectTimeout($this->timeout)->timeout($this->timeout);
         }
+
+        $response = $request->{$method}($this->url.$path, $data);
+
+        $response->throw();
+
+        return $response->json();
     }
 
     public function conversionUrls(): ConversionUrl

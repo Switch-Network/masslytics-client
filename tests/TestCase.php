@@ -13,4 +13,10 @@ class TestCase extends Orchestra
             MasslyticsServiceProvider::class,
         ];
     }
+
+    protected function defineEnvironment($app)
+    {
+        $app['config']->set('masslytics.token', 'test-token');
+        $app['config']->set('masslytics.url', 'https://masslytics.test/');
+    }
 }

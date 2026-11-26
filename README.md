@@ -175,10 +175,27 @@ Masslytics::request('GET', '/api/installCheck/ML-123456');
 
 ### Timeouts
 
-`timeout()` returns a copy of the client with a connect and request timeout in seconds.
+Use the `timeout()` function to increase the timeout in seconds.
 
 ```php
 $broadcasts = Masslytics::timeout(120)->broadcasts()->index();
+```
+
+### Error/exception handling
+
+Methods return the JSON response as a PHP array, or `null` when the response is empty, for example after deleting.
+
+```php
+use Illuminate\Http\Client\HttpClientException;
+use Illuminate\Http\Client\RequestException;
+
+try {
+    Masslytics::brands()->create(['name' => '']);
+} catch (RequestException $exception) {
+    // Handle HTTP errors codes.
+} catch (HttpClientException $exception) {
+    // Handle connection failures or timeouts.
+}
 ```
 
 ## Testing
